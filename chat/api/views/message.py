@@ -22,7 +22,7 @@ def message_view(request, id):
         return Response(serializer.data)
     elif request.method == 'POST':
         data = {
-            "room": 1,
+            "room": id,
             "content": request.data['content']
         }
         serializer = MessageSerializer(data=data)
