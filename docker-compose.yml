@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:latest
@@ -16,3 +14,24 @@ services:
     container_name: redis_server
     ports:
       - "6379:6379"
+  web:
+    build: .
+    command: /code/entrypoint.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - POSTGRES_DB=chats
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+
+volumes:
+  postgres_data:
